@@ -9,3 +9,5 @@ _*
 
 # Store .git files
 !.git*
+
+/paradigms.iml
