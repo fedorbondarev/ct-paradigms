@@ -6,6 +6,7 @@ _*
 
 # Do not store .class files
 *.class
+*.jar
 
 # Store .git files
 !.git*
