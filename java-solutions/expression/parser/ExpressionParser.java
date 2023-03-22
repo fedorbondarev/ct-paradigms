@@ -9,7 +9,7 @@ public class ExpressionParser extends BaseParser {
     }
 
     public Expression parse() {
-        Expression result = nextExpression();
+        Expression result = parseSum();
         if (eof()) {
             return result;
         }
@@ -22,19 +22,19 @@ public class ExpressionParser extends BaseParser {
         }
     }
 
-    private Expression nextExpression() {
+    private Expression parseSum() {
         skipWhitespaces();
 
         boolean hasBrackets = take('(');
 
-        Expression term = nextTerm();
+        Expression term = parseTerm();
 
         while (true) {
             if (take('+')) {
-                Expression secondTerm = nextTerm();
+                Expression secondTerm = parseTerm();
                 term = new Add(term, secondTerm);
             } else if (take('-')) {
-                Expression secondTerm = nextTerm();
+                Expression secondTerm = parseTerm();
                 term = new Subtract(term, secondTerm);
             } else {
                 break;
@@ -52,17 +52,17 @@ public class ExpressionParser extends BaseParser {
         return term;
     }
 
-    private Expression nextTerm() {
+    private Expression parseTerm() {
         skipWhitespaces();
 
-        Expression factor = nextFactor();
+        Expression factor = parseFactor();
 
         while (true) {
             if (take('*')) {
-                Expression secondFactor = nextFactor();
+                Expression secondFactor = parseFactor();
                 factor = new Multiply(factor, secondFactor);
             } else if (take('/')) {
-                Expression secondFactor = nextFactor();
+                Expression secondFactor = parseFactor();
                 factor = new Divide(factor, secondFactor);
             } else {
                 break;
@@ -74,21 +74,21 @@ public class ExpressionParser extends BaseParser {
         return factor;
     }
 
-    private Expression nextFactor() {
+    private Expression parseFactor() {
         skipWhitespaces();
 
         if (test('(')) {
-            return nextExpression();
+            return parseSum();
         } else if (test('x') || test('y') || test('z') || between('0', '9')) {
-            return nextNumberOrVariable();
+            return parseNumberOrVariable();
         } else if (take('-')) {
-            return new Multiply(new Const(-1), nextFactor());
+            return new Multiply(new Const(-1), parseFactor());
         } else {
-            throw error("Unexpected input");
+            throw error("Unexpected input, expected (, number, variable or unary minus");
         }
     }
 
-    private Expression nextNumberOrVariable() {
+    private Expression parseNumberOrVariable() {
         if (take('x')) {
             return new Variable(Variable.VariableName.X);
         } else if (take('y')) {
