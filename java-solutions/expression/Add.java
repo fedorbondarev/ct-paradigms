@@ -2,7 +2,7 @@ package expression;
 
 public class Add extends BinaryExpression {
 
-    public Add(final Expression leftExpression, final Expression rightExpression) {
+    public Add(final ExpressionCommon leftExpression, final ExpressionCommon rightExpression) {
         super(leftExpression, rightExpression);
     }
 

@@ -8,8 +8,8 @@ public class ExpressionParser extends BaseParser {
         super(charSource);
     }
 
-    public Expression parse() {
-        Expression result = parseSum();
+    public ExpressionCommon parse() {
+        ExpressionCommon result = parseSum();
         if (eof()) {
             return result;
         }
@@ -22,19 +22,19 @@ public class ExpressionParser extends BaseParser {
         }
     }
 
-    private Expression parseSum() {
+    private ExpressionCommon parseSum() {
         skipWhitespaces();
 
         boolean hasBrackets = take('(');
 
-        Expression term = parseTerm();
+        ExpressionCommon term = parseTerm();
 
         while (true) {
             if (take('+')) {
-                Expression secondTerm = parseTerm();
+                ExpressionCommon secondTerm = parseTerm();
                 term = new Add(term, secondTerm);
             } else if (take('-')) {
-                Expression secondTerm = parseTerm();
+                ExpressionCommon secondTerm = parseTerm();
                 term = new Subtract(term, secondTerm);
             } else {
                 break;
@@ -52,17 +52,17 @@ public class ExpressionParser extends BaseParser {
         return term;
     }
 
-    private Expression parseTerm() {
+    private ExpressionCommon parseTerm() {
         skipWhitespaces();
 
-        Expression factor = parseFactor();
+        ExpressionCommon factor = parseFactor();
 
         while (true) {
             if (take('*')) {
-                Expression secondFactor = parseFactor();
+                ExpressionCommon secondFactor = parseFactor();
                 factor = new Multiply(factor, secondFactor);
             } else if (take('/')) {
-                Expression secondFactor = parseFactor();
+                ExpressionCommon secondFactor = parseFactor();
                 factor = new Divide(factor, secondFactor);
             } else {
                 break;
@@ -74,7 +74,7 @@ public class ExpressionParser extends BaseParser {
         return factor;
     }
 
-    private Expression parseFactor() {
+    private ExpressionCommon parseFactor() {
         skipWhitespaces();
 
         if (test('(')) {
@@ -88,7 +88,7 @@ public class ExpressionParser extends BaseParser {
         }
     }
 
-    private Expression parseNumberOrVariable() {
+    private ExpressionCommon parseNumberOrVariable() {
         if (take('x')) {
             return new Variable(Variable.VariableName.X);
         } else if (take('y')) {

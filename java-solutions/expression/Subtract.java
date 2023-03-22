@@ -2,7 +2,7 @@ package expression;
 
 public class Subtract extends BinaryExpression {
 
-    public Subtract(Expression leftExpression, Expression rightExpression) {
+    public Subtract(ExpressionCommon leftExpression, ExpressionCommon rightExpression) {
         super(leftExpression, rightExpression);
     }
 

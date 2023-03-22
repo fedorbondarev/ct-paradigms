@@ -2,7 +2,7 @@ package expression;
 
 import java.util.Objects;
 
-public class Const implements Expression {
+public class Const implements ExpressionCommon {
 
     private final int value;
 

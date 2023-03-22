@@ -2,7 +2,7 @@ package expression;
 
 public class Multiply extends BinaryExpression {
 
-    public Multiply(Expression leftExpression, Expression rightExpression) {
+    public Multiply(ExpressionCommon leftExpression, ExpressionCommon rightExpression) {
         super(leftExpression, rightExpression);
     }
 

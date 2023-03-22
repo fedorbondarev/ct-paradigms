@@ -12,3 +12,11 @@ _*
 !.git*
 
 /paradigms.iml
+
+/java-solutions/expression/parser/ParserTestSet.java
+/java-solutions/expression/parser/ParserTester.java
+/java-solutions/expression/parser/package-info.java
+/java-solutions/expression/parser/ParserTest.java
+/java-solutions/expression/ExpressionEasyTest.java
+/java-solutions/expression/ExpressionTester.java
+/java-solutions/expression/package-info.java

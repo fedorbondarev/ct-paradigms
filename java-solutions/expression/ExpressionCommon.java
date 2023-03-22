@@ -1,6 +1,6 @@
 package expression;
 
-public interface Expression {
+public interface ExpressionCommon {
     int getPriority();
 
     int evaluate();

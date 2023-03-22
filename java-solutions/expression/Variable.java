@@ -2,7 +2,7 @@ package expression;
 
 import java.util.Objects;
 
-public class Variable implements Expression {
+public class Variable implements ExpressionCommon {
 
     public enum VariableName {
         X, Y, Z;

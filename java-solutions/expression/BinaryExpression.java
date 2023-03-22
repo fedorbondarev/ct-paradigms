@@ -2,12 +2,12 @@ package expression;
 
 import java.util.Objects;
 
-public abstract class BinaryExpression implements Expression {
+public abstract class BinaryExpression implements ExpressionCommon {
 
-    protected Expression leftExpression;
-    protected Expression rightExpression;
+    protected ExpressionCommon leftExpression;
+    protected ExpressionCommon rightExpression;
 
-    public BinaryExpression(Expression leftExpression, Expression rightExpression) {
+    public BinaryExpression(ExpressionCommon leftExpression, ExpressionCommon rightExpression) {
         this.leftExpression = leftExpression;
         this.rightExpression = rightExpression;
     }
