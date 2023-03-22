@@ -21,6 +21,15 @@ public class BaseParser {
         return ch == expected;
     }
 
+    protected boolean testAny(final char... args) {
+        for (char expected : args) {
+            if (test(expected)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected char take() {
         checkInit();
         final char result = ch;
@@ -47,8 +56,13 @@ public class BaseParser {
     }
 
     protected IllegalArgumentException error(final String message) {
-        checkInit();
         return charSource.error(message);
+    }
+
+    protected IllegalArgumentException error(final String message, final Throwable cause) {
+        IllegalArgumentException result = charSource.error(message);
+        result.initCause(cause);
+        return result;
     }
 
     protected boolean between(final char from, final char to) {

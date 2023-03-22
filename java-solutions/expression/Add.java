@@ -17,8 +17,8 @@ public class Add extends BinaryExpression {
     }
 
     @Override
-    protected int apply(final int leftExpressionValue, final int rightExpressionValue) {
-        return leftExpressionValue + rightExpressionValue;
+    protected int apply(final int a, final int b) {
+        return a + b;
     }
 
     @Override

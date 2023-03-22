@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public abstract class BinaryExpression implements ExpressionCommon {
 
-    protected ExpressionCommon leftExpression;
-    protected ExpressionCommon rightExpression;
+    protected final ExpressionCommon leftExpression;
+    protected final ExpressionCommon rightExpression;
 
     public BinaryExpression(ExpressionCommon leftExpression, ExpressionCommon rightExpression) {
         this.leftExpression = leftExpression;

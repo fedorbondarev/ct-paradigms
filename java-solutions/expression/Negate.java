@@ -1,13 +1,13 @@
 package expression;
 
-public class UnaryMinus extends UnaryExpression {
-    public UnaryMinus(ExpressionCommon childExpression) {
+public class Negate extends UnaryExpression {
+    public Negate(ExpressionCommon childExpression) {
         super(childExpression);
     }
 
     @Override
     public int getPriority() {
-        return Priority.UNARY_MINUS;
+        return Priority.NEGATE;
     }
 
     @Override
@@ -17,7 +17,7 @@ public class UnaryMinus extends UnaryExpression {
 
     @Override
     protected int getBracketsSufficientPriority() {
-        return Priority.UNARY_MINUS;
+        return Priority.NEGATE;
     }
 
     @Override

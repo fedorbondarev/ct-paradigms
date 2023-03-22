@@ -1,7 +1,5 @@
 package base;
 
-import java.util.Locale;
-
 /**
  * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
  */

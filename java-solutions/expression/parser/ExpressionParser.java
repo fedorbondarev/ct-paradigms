@@ -3,6 +3,34 @@ package expression.parser;
 import expression.*;
 
 public class ExpressionParser extends BaseParser implements TripleParser {
+    protected ExpressionCommon getAddExpression(ExpressionCommon left, ExpressionCommon right) {
+        return new Add(left, right);
+    }
+
+    protected ExpressionCommon getSubtractExpression(ExpressionCommon left, ExpressionCommon right) {
+        return new Subtract(left, right);
+    }
+
+    protected ExpressionCommon getMultiplyExpression(ExpressionCommon left, ExpressionCommon right) {
+        return new Multiply(left, right);
+    }
+
+    protected ExpressionCommon getDivideExpression(ExpressionCommon left, ExpressionCommon right) {
+        return new Divide(left, right);
+    }
+
+    protected ExpressionCommon getNegateExpression(ExpressionCommon child) {
+        return new Negate(child);
+    }
+
+    protected ExpressionCommon getConstExpression(int constValue) {
+        return new Const(constValue);
+    }
+
+    protected ExpressionCommon getVariableExpression(String variableName) {
+        return new Variable(variableName);
+    }
+
     public TripleExpression parse(String stringExpression) {
         init(new StringSource(stringExpression));
 
@@ -15,11 +43,13 @@ public class ExpressionParser extends BaseParser implements TripleParser {
         throw error("End of expression expected");
     }
 
+    private boolean testNumberOrVariable() {
+        return test('x') || test('y') || test('z') || between('0', '9');
+    }
+
     private void skipWhitespaces() {
         while (true) {
-            if (!takeWhitespace()) {
-                break;
-            }
+            if (!takeWhitespace()) break;
         }
     }
 
@@ -31,10 +61,10 @@ public class ExpressionParser extends BaseParser implements TripleParser {
         while (true) {
             if (take('+')) {
                 ExpressionCommon secondTerm = parseTerm();
-                term = new Add(term, secondTerm);
+                term = getAddExpression(term, secondTerm);
             } else if (take('-')) {
                 ExpressionCommon secondTerm = parseTerm();
-                term = new Subtract(term, secondTerm);
+                term = getSubtractExpression(term, secondTerm);
             } else {
                 break;
             }
@@ -53,10 +83,10 @@ public class ExpressionParser extends BaseParser implements TripleParser {
         while (true) {
             if (take('*')) {
                 ExpressionCommon secondFactor = parseFactor();
-                factor = new Multiply(factor, secondFactor);
+                factor = getMultiplyExpression(factor, secondFactor);
             } else if (take('/')) {
                 ExpressionCommon secondFactor = parseFactor();
-                factor = new Divide(factor, secondFactor);
+                factor = getDivideExpression(factor, secondFactor);
             } else {
                 break;
             }
@@ -88,10 +118,6 @@ public class ExpressionParser extends BaseParser implements TripleParser {
         return result;
     }
 
-    private boolean testNumberOrVariable() {
-        return test('x') || test('y') || test('z') || between('0', '9');
-    }
-
     private String getNextNumbers() {
         skipWhitespaces();
 
@@ -110,16 +136,14 @@ public class ExpressionParser extends BaseParser implements TripleParser {
 
         ExpressionCommon result;
 
-        if (take('x')) {
-            result = new Variable(Variable.VariableName.X);
-        } else if (take('y')) {
-            result = new Variable(Variable.VariableName.Y);
-        } else if (take('z')) {
-            result = new Variable(Variable.VariableName.Z);
+        if (testAny('x', 'y', 'z')) {
+            result = getVariableExpression(String.valueOf(take()));
         } else if (between('0', '9')) {
-            result = new Const(Integer.parseInt(
-                    getNextNumbers()
-            ));
+            try {
+                result = getConstExpression(Integer.parseInt(getNextNumbers()));
+            } catch (NumberFormatException exception) {
+                throw error("Wrong number format", exception);
+            }
         } else {
             throw error("Expected variable or number");
         }
@@ -135,14 +159,14 @@ public class ExpressionParser extends BaseParser implements TripleParser {
         take('-');
 
         if (between('0', '9')) {
-            return new Const(
-                    Integer.parseInt(
-                            "-" + getNextNumbers()
-                    )
-            );
+            try {
+                return getConstExpression(Integer.parseInt("-" + getNextNumbers()));
+            } catch (NumberFormatException exception) {
+                throw error("Wrong number format", exception);
+            }
         }
 
-        ExpressionCommon result = new UnaryMinus(parseFactor());
+        ExpressionCommon result = getNegateExpression(parseFactor());
 
         skipWhitespaces();
 

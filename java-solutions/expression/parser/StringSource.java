@@ -1,7 +1,7 @@
 package expression.parser;
 
 public class StringSource implements CharSource {
-    String str;
+    final String str;
     int pos = 0;
 
     public StringSource(String str) {

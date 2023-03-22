@@ -22,7 +22,7 @@ public class Divide extends BinaryExpression {
 
     @Override
     protected int getRightBracketsSufficientPriority() {
-        return Priority.UNARY_MINUS;
+        return Priority.NEGATE;
     }
 
     @Override
