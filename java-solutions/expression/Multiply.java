@@ -17,7 +17,7 @@ public class Multiply extends BinaryExpression {
     }
 
     @Override
-    protected int combineValues(int a, int b) {
+    protected int apply(int a, int b) {
         return a * b;
     }
 
@@ -28,6 +28,6 @@ public class Multiply extends BinaryExpression {
 
     @Override
     protected int getLeftBracketsSufficientPriority() {
-        return Priority.MULTIPLY;
+        return Priority.DIVIDE;
     }
 }

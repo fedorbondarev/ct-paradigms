@@ -2,30 +2,29 @@ package expression.parser;
 
 import expression.*;
 
-public class ExpressionParser extends BaseParser {
+public class ExpressionParser extends BaseParser implements TripleParser {
+    public TripleExpression parse(String stringExpression) {
+        init(new StringSource(stringExpression));
 
-    public ExpressionParser(final CharSource charSource) {
-        super(charSource);
-    }
-
-    public ExpressionCommon parse() {
         ExpressionCommon result = parseSum();
+
         if (eof()) {
             return result;
         }
+
         throw error("End of expression expected");
     }
 
     private void skipWhitespaces() {
         while (true) {
-            if (!take(' ')) break;
+            if (!takeWhitespace()) {
+                break;
+            }
         }
     }
 
     private ExpressionCommon parseSum() {
         skipWhitespaces();
-
-        boolean hasBrackets = take('(');
 
         ExpressionCommon term = parseTerm();
 
@@ -39,12 +38,6 @@ public class ExpressionParser extends BaseParser {
             } else {
                 break;
             }
-        }
-
-
-        if (hasBrackets) {
-            expect(')');
-            take(')');
         }
 
         skipWhitespaces();
@@ -77,34 +70,82 @@ public class ExpressionParser extends BaseParser {
     private ExpressionCommon parseFactor() {
         skipWhitespaces();
 
-        if (test('(')) {
-            return parseSum();
-        } else if (test('x') || test('y') || test('z') || between('0', '9')) {
-            return parseNumberOrVariable();
-        } else if (take('-')) {
-            return new Multiply(new Const(-1), parseFactor());
+        ExpressionCommon result;
+
+        if (take('(')) {
+            result = parseSum();
+            expect(')');
+        } else if (testNumberOrVariable()) {
+            result = parseNumberOrVariable();
+        } else if (test('-')) {
+            result = parseUnaryMinus();
         } else {
             throw error("Unexpected input, expected (, number, variable or unary minus");
         }
+
+        skipWhitespaces();
+
+        return result;
     }
 
-    private ExpressionCommon parseNumberOrVariable() {
-        if (take('x')) {
-            return new Variable(Variable.VariableName.X);
-        } else if (take('y')) {
-            return new Variable(Variable.VariableName.Y);
-        } else if (take('z')) {
-            return new Variable(Variable.VariableName.Z);
-        }
+    private boolean testNumberOrVariable() {
+        return test('x') || test('y') || test('z') || between('0', '9');
+    }
+
+    private String getNextNumbers() {
+        skipWhitespaces();
 
         StringBuilder sb = new StringBuilder();
         while (between('0', '9')) {
             sb.append(take());
         }
-        return new Const(
-                Integer.parseInt(
-                        sb.toString()
-                )
-        );
+
+        skipWhitespaces();
+
+        return sb.toString();
+    }
+
+    private ExpressionCommon parseNumberOrVariable() {
+        skipWhitespaces();
+
+        ExpressionCommon result;
+
+        if (take('x')) {
+            result = new Variable(Variable.VariableName.X);
+        } else if (take('y')) {
+            result = new Variable(Variable.VariableName.Y);
+        } else if (take('z')) {
+            result = new Variable(Variable.VariableName.Z);
+        } else if (between('0', '9')) {
+            result = new Const(Integer.parseInt(
+                    getNextNumbers()
+            ));
+        } else {
+            throw error("Expected variable or number");
+        }
+
+        skipWhitespaces();
+
+        return result;
+    }
+
+    private ExpressionCommon parseUnaryMinus() {
+        skipWhitespaces();
+
+        take('-');
+
+        if (between('0', '9')) {
+            return new Const(
+                    Integer.parseInt(
+                            "-" + getNextNumbers()
+                    )
+            );
+        }
+
+        ExpressionCommon result = new UnaryMinus(parseFactor());
+
+        skipWhitespaces();
+
+        return result;
     }
 }

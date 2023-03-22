@@ -4,7 +4,7 @@
 # Do not store anything starting with _
 _*
 
-# Do not store .class files
+# Do not store .class and .jar files
 *.class
 *.jar
 
@@ -13,6 +13,7 @@ _*
 
 /paradigms.iml
 
+# Do not store test files
 /java-solutions/expression/parser/ParserTestSet.java
 /java-solutions/expression/parser/ParserTester.java
 /java-solutions/expression/parser/package-info.java
@@ -20,3 +21,9 @@ _*
 /java-solutions/expression/ExpressionEasyTest.java
 /java-solutions/expression/ExpressionTester.java
 /java-solutions/expression/package-info.java
+/java-solutions/expression/ExpressionTest.java
+/java-solutions/expression/parser/Operations.java
+/java-solutions/expression/exceptions/ExceptionsTest.java
+/java-solutions/expression/exceptions/ExceptionsTester.java
+/java-solutions/expression/exceptions/ExceptionsTestSet.java
+/java-solutions/expression/exceptions/package-info.java

@@ -7,7 +7,7 @@ public class Divide extends BinaryExpression {
 
     @Override
     public int getPriority() {
-        return Priority.MULTIPLY;
+        return Priority.DIVIDE;
     }
 
     @Override
@@ -16,17 +16,17 @@ public class Divide extends BinaryExpression {
     }
 
     @Override
-    protected int combineValues(int a, int b) {
+    protected int apply(int a, int b) {
         return a / b;
     }
 
     @Override
     protected int getRightBracketsSufficientPriority() {
-        return Priority.MULTIPLY;
+        return Priority.UNARY_MINUS;
     }
 
     @Override
     protected int getLeftBracketsSufficientPriority() {
-        return Priority.POWER;
+        return Priority.DIVIDE;
     }
 }

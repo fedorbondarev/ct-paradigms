@@ -18,27 +18,27 @@ public abstract class BinaryExpression implements ExpressionCommon {
 
     abstract protected int getLeftBracketsSufficientPriority();
 
-    abstract protected int combineValues(int a, int b);
+    abstract protected int apply(int a, int b);
 
 
     @Override
     public int evaluate() {
-        return combineValues(leftExpression.evaluate(), rightExpression.evaluate());
+        return apply(leftExpression.evaluate(), rightExpression.evaluate());
     }
 
     @Override
     public int evaluate(int x) {
-        return combineValues(leftExpression.evaluate(x), rightExpression.evaluate(x));
+        return apply(leftExpression.evaluate(x), rightExpression.evaluate(x));
     }
 
     @Override
     public int evaluate(int x, int y) {
-        return combineValues(leftExpression.evaluate(x, y), rightExpression.evaluate(x, y));
+        return apply(leftExpression.evaluate(x, y), rightExpression.evaluate(x, y));
     }
 
     @Override
     public int evaluate(int x, int y, int z) {
-        return combineValues(leftExpression.evaluate(x, y, z), rightExpression.evaluate(x, y, z));
+        return apply(leftExpression.evaluate(x, y, z), rightExpression.evaluate(x, y, z));
     }
 
     @Override
@@ -69,7 +69,7 @@ public abstract class BinaryExpression implements ExpressionCommon {
 
     @Override
     public int hashCode() {
-        return Objects.hash(leftExpression, rightExpression);
+        return Objects.hash(leftExpression, rightExpression, getSymbol(), getPriority());
     }
 
     @Override
