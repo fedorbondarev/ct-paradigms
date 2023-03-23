@@ -1,11 +1,11 @@
-package expression;
+package expression.generic;
 
 import java.util.Objects;
 
-abstract public class UnaryExpression implements ExpressionCommon {
-    private final ExpressionCommon childExpression;
+abstract public class UnaryExpression<T> implements ExpressionCommon<T> {
+    private final ExpressionCommon<T> childExpression;
 
-    public UnaryExpression(ExpressionCommon childExpression) {
+    public UnaryExpression(ExpressionCommon<T> childExpression) {
         this.childExpression = childExpression;
     }
 
@@ -13,25 +13,25 @@ abstract public class UnaryExpression implements ExpressionCommon {
 
     abstract protected int getBracketsSufficientPriority();
 
-    abstract protected int apply(int a);
+    abstract protected T apply(T a);
 
     @Override
-    public int evaluate() {
+    public T evaluate() {
         return apply(childExpression.evaluate());
     }
 
     @Override
-    public int evaluate(int x) {
+    public T evaluate(T x) {
         return apply(childExpression.evaluate(x));
     }
 
     @Override
-    public int evaluate(int x, int y) {
+    public T evaluate(T x, T y) {
         return apply(childExpression.evaluate(x, y));
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
+    public T evaluate(T x, T y, T z) {
         return apply(childExpression.evaluate(x, y, z));
     }
 
@@ -53,7 +53,7 @@ abstract public class UnaryExpression implements ExpressionCommon {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UnaryExpression that = (UnaryExpression) o;
+        UnaryExpression<?> that = (UnaryExpression<?>) o;
         return Objects.equals(childExpression, that.childExpression);
     }
 

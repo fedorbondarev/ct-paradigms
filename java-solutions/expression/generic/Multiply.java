@@ -1,28 +1,26 @@
-package expression;
+package expression.generic;
 
-public class Divide extends IntBinaryExpression {
-    public Divide(IntExpressionCommon leftExpression, IntExpressionCommon rightExpression) {
+import expression.Priority;
+
+public abstract class Multiply<T> extends BinaryExpression<T> {
+
+    public Multiply(ExpressionCommon<T> leftExpression, ExpressionCommon<T> rightExpression) {
         super(leftExpression, rightExpression);
     }
 
     @Override
     public int getPriority() {
-        return Priority.DIVIDE;
+        return Priority.MULTIPLY;
     }
 
     @Override
     protected String getSymbol() {
-        return "/";
-    }
-
-    @Override
-    protected int apply(int a, int b) {
-        return a / b;
+        return "*";
     }
 
     @Override
     protected int getRightBracketsSufficientPriority() {
-        return Priority.NEGATE;
+        return Priority.MULTIPLY;
     }
 
     @Override

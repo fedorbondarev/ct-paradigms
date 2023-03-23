@@ -1,10 +1,10 @@
 package expression.exceptions;
 
-import expression.ExpressionCommon;
+import expression.IntExpressionCommon;
 import expression.Multiply;
 
 public class CheckedMultiply extends Multiply {
-    public CheckedMultiply(ExpressionCommon leftExpression, ExpressionCommon rightExpression) {
+    public CheckedMultiply(IntExpressionCommon leftExpression, IntExpressionCommon rightExpression) {
         super(leftExpression, rightExpression);
     }
 

@@ -1,10 +1,10 @@
 package expression.exceptions;
 
 import expression.Divide;
-import expression.ExpressionCommon;
+import expression.IntExpressionCommon;
 
 public class CheckedDivide extends Divide {
-    public CheckedDivide(ExpressionCommon leftExpression, ExpressionCommon rightExpression) {
+    public CheckedDivide(IntExpressionCommon leftExpression, IntExpressionCommon rightExpression) {
         super(leftExpression, rightExpression);
     }
 

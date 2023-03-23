@@ -1,8 +1,8 @@
 package expression;
 
-public class Add extends BinaryExpression {
+public class Add extends IntBinaryExpression {
 
-    public Add(final ExpressionCommon leftExpression, final ExpressionCommon rightExpression) {
+    public Add(final IntExpressionCommon leftExpression, final IntExpressionCommon rightExpression) {
         super(leftExpression, rightExpression);
     }
 

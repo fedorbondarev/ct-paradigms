@@ -1,7 +1,9 @@
-package expression;
+package expression.generic;
 
-public class Negate extends IntUnaryExpression {
-    public Negate(IntExpressionCommon childExpression) {
+import expression.Priority;
+
+abstract public class Negate<T> extends UnaryExpression<T> {
+    public Negate(ExpressionCommon<T> childExpression) {
         super(childExpression);
     }
 
@@ -18,10 +20,5 @@ public class Negate extends IntUnaryExpression {
     @Override
     protected int getBracketsSufficientPriority() {
         return Priority.NEGATE;
-    }
-
-    @Override
-    protected int apply(int a) {
-        return -a;
     }
 }

@@ -2,12 +2,12 @@ package expression;
 
 import java.util.Objects;
 
-public abstract class BinaryExpression implements ExpressionCommon {
+public abstract class IntBinaryExpression implements IntExpressionCommon {
 
-    protected final ExpressionCommon leftExpression;
-    protected final ExpressionCommon rightExpression;
+    protected final IntExpressionCommon leftExpression;
+    protected final IntExpressionCommon rightExpression;
 
-    public BinaryExpression(ExpressionCommon leftExpression, ExpressionCommon rightExpression) {
+    public IntBinaryExpression(IntExpressionCommon leftExpression, IntExpressionCommon rightExpression) {
         this.leftExpression = leftExpression;
         this.rightExpression = rightExpression;
     }
@@ -63,7 +63,7 @@ public abstract class BinaryExpression implements ExpressionCommon {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BinaryExpression that = (BinaryExpression) o;
+        IntBinaryExpression that = (IntBinaryExpression) o;
         return Objects.equals(leftExpression, that.leftExpression) && Objects.equals(rightExpression, that.rightExpression);
     }
 

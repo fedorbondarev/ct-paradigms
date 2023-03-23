@@ -1,6 +1,6 @@
 package expression;
 
-public interface ExpressionCommon extends Expression, TripleExpression {
+public interface IntExpressionCommon extends Expression, TripleExpression {
     int getPriority();
 
     int evaluate();

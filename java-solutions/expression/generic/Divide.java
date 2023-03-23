@@ -1,7 +1,9 @@
-package expression;
+package expression.generic;
 
-public class Divide extends IntBinaryExpression {
-    public Divide(IntExpressionCommon leftExpression, IntExpressionCommon rightExpression) {
+import expression.*;
+
+public abstract class Divide<T> extends BinaryExpression<T> {
+    public Divide(ExpressionCommon<T> leftExpression, ExpressionCommon<T> rightExpression) {
         super(leftExpression, rightExpression);
     }
 
@@ -13,11 +15,6 @@ public class Divide extends IntBinaryExpression {
     @Override
     protected String getSymbol() {
         return "/";
-    }
-
-    @Override
-    protected int apply(int a, int b) {
-        return a / b;
     }
 
     @Override

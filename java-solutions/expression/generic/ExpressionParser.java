@@ -1,40 +1,30 @@
-package expression.parser;
+package expression.generic;
 
-import expression.*;
+import expression.parser.BaseParser;
+import expression.parser.StringSource;
 
-public class ExpressionParser extends BaseParser implements TripleParser {
-    protected IntExpressionCommon getAddExpression(IntExpressionCommon left, IntExpressionCommon right) {
-        return new Add(left, right);
-    }
+abstract public class ExpressionParser<T extends Number> extends BaseParser {
 
-    protected IntExpressionCommon getSubtractExpression(IntExpressionCommon left, IntExpressionCommon right) {
-        return new Subtract(left, right);
-    }
+    protected abstract ExpressionCommon<T> getAddExpression(ExpressionCommon<T> left, ExpressionCommon<T> right);
 
-    protected IntExpressionCommon getMultiplyExpression(IntExpressionCommon left, IntExpressionCommon right) {
-        return new Multiply(left, right);
-    }
+    protected abstract ExpressionCommon<T> getSubtractExpression(ExpressionCommon<T> left, ExpressionCommon<T> right);
 
-    protected IntExpressionCommon getDivideExpression(IntExpressionCommon left, IntExpressionCommon right) {
-        return new Divide(left, right);
-    }
+    protected abstract ExpressionCommon<T> getMultiplyExpression(ExpressionCommon<T> left, ExpressionCommon<T> right);
 
-    protected IntExpressionCommon getNegateExpression(IntExpressionCommon child) {
-        return new Negate(child);
-    }
+    protected abstract ExpressionCommon<T> getDivideExpression(ExpressionCommon<T> left, ExpressionCommon<T> right);
 
-    protected IntExpressionCommon getConstExpression(String constValue) {
-        return new Const(Integer.parseInt(constValue));
-    }
+    protected abstract ExpressionCommon<T> getNegateExpression(ExpressionCommon<T> child);
 
-    protected IntExpressionCommon getVariableExpression(String variableName) {
-        return new Variable(variableName);
-    }
+    protected abstract ExpressionCommon<T> getConstExpression(T constValue);
 
-    public TripleExpression parse(String stringExpression) {
+    protected abstract T getConstElement(String numberString);
+
+    protected abstract ExpressionCommon<T> getVariableExpression(String variableName);
+
+    public ExpressionCommon<T> parse(String stringExpression) {
         init(new StringSource(stringExpression));
 
-        IntExpressionCommon result = parseSum();
+        ExpressionCommon<T> result = parseSum();
 
         if (eof()) {
             return result;
@@ -53,17 +43,17 @@ public class ExpressionParser extends BaseParser implements TripleParser {
         }
     }
 
-    private IntExpressionCommon parseSum() {
+    private ExpressionCommon<T> parseSum() {
         skipWhitespaces();
 
-        IntExpressionCommon term = parseTerm();
+        ExpressionCommon<T> term = parseTerm();
 
         while (true) {
             if (take('+')) {
-                IntExpressionCommon secondTerm = parseTerm();
+                ExpressionCommon<T> secondTerm = parseTerm();
                 term = getAddExpression(term, secondTerm);
             } else if (take('-')) {
-                IntExpressionCommon secondTerm = parseTerm();
+                ExpressionCommon<T> secondTerm = parseTerm();
                 term = getSubtractExpression(term, secondTerm);
             } else {
                 break;
@@ -75,17 +65,17 @@ public class ExpressionParser extends BaseParser implements TripleParser {
         return term;
     }
 
-    private IntExpressionCommon parseTerm() {
+    private ExpressionCommon<T> parseTerm() {
         skipWhitespaces();
 
-        IntExpressionCommon factor = parseFactor();
+        ExpressionCommon<T> factor = parseFactor();
 
         while (true) {
             if (take('*')) {
-                IntExpressionCommon secondFactor = parseFactor();
+                ExpressionCommon<T> secondFactor = parseFactor();
                 factor = getMultiplyExpression(factor, secondFactor);
             } else if (take('/')) {
-                IntExpressionCommon secondFactor = parseFactor();
+                ExpressionCommon<T> secondFactor = parseFactor();
                 factor = getDivideExpression(factor, secondFactor);
             } else {
                 break;
@@ -97,10 +87,10 @@ public class ExpressionParser extends BaseParser implements TripleParser {
         return factor;
     }
 
-    private IntExpressionCommon parseFactor() {
+    private ExpressionCommon<T> parseFactor() {
         skipWhitespaces();
 
-        IntExpressionCommon result;
+        ExpressionCommon<T> result;
 
         if (take('(')) {
             result = parseSum();
@@ -126,21 +116,28 @@ public class ExpressionParser extends BaseParser implements TripleParser {
             sb.append(take());
         }
 
+        if (take('.')) {
+            sb.append('.');
+            while (between('0', '9')) {
+                sb.append(take());
+            }
+        }
+
         skipWhitespaces();
 
         return sb.toString();
     }
 
-    private IntExpressionCommon parseNumberOrVariable() {
+    private ExpressionCommon<T> parseNumberOrVariable() {
         skipWhitespaces();
 
-        IntExpressionCommon result;
+        ExpressionCommon<T> result;
 
         if (testAny('x', 'y', 'z')) {
             result = getVariableExpression(String.valueOf(take()));
         } else if (between('0', '9')) {
             try {
-                result = getConstExpression(getNextNumbers());
+                result = getConstExpression(getConstElement(getNextNumbers()));
             } catch (NumberFormatException exception) {
                 throw error("Wrong number format", exception);
             }
@@ -153,20 +150,20 @@ public class ExpressionParser extends BaseParser implements TripleParser {
         return result;
     }
 
-    private IntExpressionCommon parseUnaryMinus() {
+    private ExpressionCommon<T> parseUnaryMinus() {
         skipWhitespaces();
 
         take('-');
 
         if (between('0', '9')) {
             try {
-                return getConstExpression("-" + getNextNumbers());
+                return getConstExpression(getConstElement("-" + getNextNumbers()));
             } catch (NumberFormatException exception) {
                 throw error("Wrong number format", exception);
             }
         }
 
-        IntExpressionCommon result = getNegateExpression(parseFactor());
+        ExpressionCommon<T> result = getNegateExpression(parseFactor());
 
         skipWhitespaces();
 

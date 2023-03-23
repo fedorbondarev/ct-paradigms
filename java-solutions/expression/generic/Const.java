@@ -1,12 +1,14 @@
-package expression;
+package expression.generic;
+
+import expression.Priority;
 
 import java.util.Objects;
 
-public class Const implements IntExpressionCommon {
+public class Const<T> implements ExpressionCommon<T> {
 
-    private final int value;
+    private final T value;
 
-    public Const(int value) {
+    public Const(T value) {
         this.value = value;
     }
 
@@ -16,22 +18,22 @@ public class Const implements IntExpressionCommon {
     }
 
     @Override
-    public int evaluate() {
+    public T evaluate() {
         return value;
     }
 
     @Override
-    public int evaluate(int x) {
+    public T evaluate(T x) {
         return value;
     }
 
     @Override
-    public int evaluate(int x, int y) {
+    public T evaluate(T x, T y) {
         return value;
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
+    public T evaluate(T x, T y, T z) {
         return value;
     }
 
@@ -44,17 +46,12 @@ public class Const implements IntExpressionCommon {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Const aConst = (Const) o;
-        return value == aConst.value;
+        Const<?> aConst = (Const<?>) o;
+        return value.equals(aConst.value);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(value);
-    }
-
-    @Override
-    public String toString() {
-        return Integer.toString(value);
     }
 }

@@ -1,8 +1,9 @@
-package expression;
+package expression.generic;
 
-public class Subtract extends IntBinaryExpression {
+import expression.Priority;
 
-    public Subtract(IntExpressionCommon leftExpression, IntExpressionCommon rightExpression) {
+abstract public class Subtract<T> extends BinaryExpression<T> {
+    public Subtract(ExpressionCommon<T> leftExpression, ExpressionCommon<T> rightExpression) {
         super(leftExpression, rightExpression);
     }
 
@@ -14,11 +15,6 @@ public class Subtract extends IntBinaryExpression {
     @Override
     protected String getSymbol() {
         return "-";
-    }
-
-    @Override
-    protected int apply(int a, int b) {
-        return a - b;
     }
 
     @Override

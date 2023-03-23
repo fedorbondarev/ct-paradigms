@@ -1,8 +1,8 @@
 package expression;
 
-public class Multiply extends BinaryExpression {
+public class Multiply extends IntBinaryExpression {
 
-    public Multiply(ExpressionCommon leftExpression, ExpressionCommon rightExpression) {
+    public Multiply(IntExpressionCommon leftExpression, IntExpressionCommon rightExpression) {
         super(leftExpression, rightExpression);
     }
 

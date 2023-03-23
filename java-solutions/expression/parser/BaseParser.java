@@ -5,7 +5,7 @@ public class BaseParser {
     private CharSource charSource = null;
     private char ch = 0;
 
-    void init(final CharSource charSource) {
+    protected void init(final CharSource charSource) {
         this.charSource = charSource;
         take();
     }

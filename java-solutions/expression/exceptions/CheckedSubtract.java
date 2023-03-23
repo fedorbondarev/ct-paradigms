@@ -1,10 +1,10 @@
 package expression.exceptions;
 
-import expression.ExpressionCommon;
+import expression.IntExpressionCommon;
 import expression.Subtract;
 
 public class CheckedSubtract extends Subtract {
-    public CheckedSubtract(ExpressionCommon leftExpression, ExpressionCommon rightExpression) {
+    public CheckedSubtract(IntExpressionCommon leftExpression, IntExpressionCommon rightExpression) {
         super(leftExpression, rightExpression);
     }
 

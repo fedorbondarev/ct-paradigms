@@ -27,6 +27,9 @@ _*
 /java-solutions/expression/exceptions/ExceptionsTester.java
 /java-solutions/expression/exceptions/ExceptionsTestSet.java
 /java-solutions/expression/exceptions/package-info.java
+/java-solutions/expression/generic/GenericTester.java
+/java-solutions/expression/generic/GenericTest.java
+/java-solutions/expression/generic/package-info.java
 
 # Do not store javascript test files
 /javascript-solutions/graal/

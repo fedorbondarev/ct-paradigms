@@ -1,8 +1,10 @@
-package expression;
+package expression.generic;
+
+import expression.Priority;
 
 import java.util.Objects;
 
-public class Variable implements IntExpressionCommon {
+public class Variable<T> implements ExpressionCommon<T> {
 
     public enum VariableName {
         X, Y, Z;
@@ -38,12 +40,12 @@ public class Variable implements IntExpressionCommon {
     }
 
     @Override
-    public int evaluate() {
+    public T evaluate() {
         throw new IllegalArgumentException("Value for variable " + variableName + " was not found");
     }
 
     @Override
-    public int evaluate(int x) {
+    public T evaluate(T x) {
         if (variableName.equals(VariableName.X)) {
             return x;
         }
@@ -51,7 +53,7 @@ public class Variable implements IntExpressionCommon {
     }
 
     @Override
-    public int evaluate(int x, int y) {
+    public T evaluate(T x, T y) {
         return switch (variableName) {
             case X -> x;
             case Y -> y;
@@ -60,7 +62,7 @@ public class Variable implements IntExpressionCommon {
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
+    public T evaluate(T x, T y, T z) {
         return switch (variableName) {
             case X -> x;
             case Y -> y;
@@ -77,7 +79,7 @@ public class Variable implements IntExpressionCommon {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Variable variable = (Variable) o;
+        Variable<?> variable = (Variable<?>) o;
         return variableName == variable.variableName;
     }
 

@@ -1,10 +1,10 @@
 package expression.exceptions;
 
-import expression.ExpressionCommon;
+import expression.IntExpressionCommon;
 import expression.Negate;
 
 public class CheckedNegate extends Negate {
-    public CheckedNegate(ExpressionCommon childExpression) {
+    public CheckedNegate(IntExpressionCommon childExpression) {
         super(childExpression);
     }
 
