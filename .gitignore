@@ -13,7 +13,7 @@ _*
 
 /paradigms.iml
 
-# Do not store test files
+# Do not store java test files
 /java-solutions/expression/parser/ParserTestSet.java
 /java-solutions/expression/parser/ParserTester.java
 /java-solutions/expression/parser/package-info.java
@@ -27,3 +27,8 @@ _*
 /java-solutions/expression/exceptions/ExceptionsTester.java
 /java-solutions/expression/exceptions/ExceptionsTestSet.java
 /java-solutions/expression/exceptions/package-info.java
+
+# Do not store javascript test files
+/javascript-solutions/graal/
+/javascript-solutions/examples/
+/javascript-solutions/jstest/
