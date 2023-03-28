@@ -24,7 +24,7 @@ let constants = {one, two};
 
 const parse = (s) => {
     let elements = [];
-    for (const element of s.split(/\s+/g)) {
+    for (const element of s.split(" ").filter((el) => el.length !== 0)) {
         if (binaryExpressions[element] !== undefined) {
             elements.push(binaryExpressions[element](...[elements.pop(), elements.pop()].reverse()))
         } else if (unaryExpressions[element] !== undefined) {

@@ -17,9 +17,9 @@ abstract public class ExpressionParser<T extends Number> extends BaseParser {
 
     protected abstract ExpressionCommon<T> getConstExpression(T constValue);
 
-    protected abstract T getConstElement(String numberString);
-
     protected abstract ExpressionCommon<T> getVariableExpression(String variableName);
+
+    protected abstract T parseConstValue(String numberString);
 
     public ExpressionCommon<T> parse(String stringExpression) {
         init(new StringSource(stringExpression));
@@ -137,7 +137,7 @@ abstract public class ExpressionParser<T extends Number> extends BaseParser {
             result = getVariableExpression(String.valueOf(take()));
         } else if (between('0', '9')) {
             try {
-                result = getConstExpression(getConstElement(getNextNumbers()));
+                result = getConstExpression(parseConstValue(getNextNumbers()));
             } catch (NumberFormatException exception) {
                 throw error("Wrong number format", exception);
             }
@@ -157,7 +157,7 @@ abstract public class ExpressionParser<T extends Number> extends BaseParser {
 
         if (between('0', '9')) {
             try {
-                return getConstExpression(getConstElement("-" + getNextNumbers()));
+                return getConstExpression(parseConstValue("-" + getNextNumbers()));
             } catch (NumberFormatException exception) {
                 throw error("Wrong number format", exception);
             }
