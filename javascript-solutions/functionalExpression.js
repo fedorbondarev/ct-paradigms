@@ -17,27 +17,39 @@ const cos = buildExpression((a) => Math.cos(a));
 const one = cnst(1)
 const two = cnst(2)
 
-let unaryExpressions = {negate, sin, cos};
-let binaryExpressions = {"+": add, "-": subtract, "*": multiply, "/": divide}
+let operators = {
+    "negate": {func: negate, length: 1},
+    "sin": {func: sin, length: 1},
+    "cos": {func: cos, length: 1},
 
-let constants = {one, two};
+    "+": {func: add, length: 2},
+    "-": {func: subtract, length: 2},
+    "*": {func: multiply, length: 2},
+    "/": {func: divide, length: 2},
+
+    "one": {func: () => one, length: 0},
+    "two": {func: () => two, length: 0},
+}
 
 const parse = (s) => {
-    let elements = [];
-    for (const element of s.split(" ").filter((el) => el.length !== 0)) {
-        if (binaryExpressions[element] !== undefined) {
-            elements.push(binaryExpressions[element](...[elements.pop(), elements.pop()].reverse()))
-        } else if (unaryExpressions[element] !== undefined) {
-            elements.push(unaryExpressions[element](elements.pop()));
-        } else if (constants[element] !== undefined) {
-            elements.push(constants[element]);
-        } else if (["x", "y", "z"].includes(element)) {
-            elements.push(variable(element));
-        } else if (element.length !== 0) {
-            elements.push(cnst(Number(element)))
+    let elements = [], elementString = "";
+    for (let i = 0, ch = s[0]; i < s.length + 1; i++, ch = s[i]) {
+        if ((ch === " " || ch === undefined) && elementString.length !== 0) {
+            if (operators[elementString] !== undefined) {
+                elements.push(operators[elementString].func(
+                    ...Array.from({length: operators[elementString].length}, () => elements.pop()).reverse()
+                ));
+            } else if (["x", "y", "z"].includes(elementString)) {
+                elements.push(variable(elementString));
+            } else if (elementString.length !== 0) {
+                elements.push(cnst(Number(elementString)));
+            }
+            elementString = "";
+        } else if (ch !== " ") {
+            elementString += ch;
         }
     }
-    return elements[elements.length - 1]
+    return elements[elements.length - 1];
 }
 
 // Test x^2 - 2x + 1
