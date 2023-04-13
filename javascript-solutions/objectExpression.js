@@ -116,7 +116,7 @@ let Exp = buildComplexExpression(
 )
 
 let Ln = buildComplexExpression(
-    a => Math.log(a),
+    Math.log,
     "ln",
     1,
     (expr) => new Multiply(new Divide(new Const(1), expr.value), expr.diffValue),
