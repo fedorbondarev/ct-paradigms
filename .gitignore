@@ -31,7 +31,17 @@ _*
 /java-solutions/expression/generic/GenericTest.java
 /java-solutions/expression/generic/package-info.java
 
-# Do not store javascript test files
+# Do not store some javascript files
 /javascript-solutions/graal/
 /javascript-solutions/examples/
 /javascript-solutions/jstest/
+
+# Do not store some clojure files
+/clojure-solutions/examples.clj
+/clojure-solutions/.gitattributes
+/clojure-solutions/RunClojure.sh
+/clojure-solutions/TestClojure.sh
+/clojure-solutions/examples/
+/clojure-solutions/lib/
+/clojure-solutions/cljtest/
+/clojure-solutions/data/
