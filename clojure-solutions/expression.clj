@@ -30,20 +30,14 @@
     )
   )
 
-(defn buildUnaryExpression [func]
-  (fn [expr]
-    (fn [vars] (func (expr vars)))
-    )
-  )
-
 (def add (buildExpression +))
 (def subtract (buildExpression -))
 (def multiply (buildExpression *))
 (def divide (buildExpression divideWithInfinity))
-(def negate (buildUnaryExpression -))
+(def negate (buildExpression -))
 
-(def exp (buildUnaryExpression #(Math/exp %)))
-(def ln (buildUnaryExpression #(Math/log %)))
+(def exp (buildExpression #(Math/exp %)))
+(def ln (buildExpression #(Math/log %)))
 
 (def meansq (buildExpression meansqFunc))
 (def rms (buildExpression
