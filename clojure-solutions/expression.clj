@@ -8,6 +8,15 @@
     )
   )
 
+(defn meansqFunc [& v]
+  (let [n (count v)]
+    (if (= 0 n)
+      0
+      (/ (apply + (mapv #(* % %) v)) n)
+      )
+    )
+  )
+
 (defn constant [val] (fn [_vars] val))
 (defn variable [name] (fn [vars] (get vars name)))
 
@@ -36,14 +45,26 @@
 (def exp (buildUnaryExpression #(Math/exp %)))
 (def ln (buildUnaryExpression #(Math/log %)))
 
+(def meansq (buildExpression meansqFunc))
+(def rms (buildExpression
+           (fn [& v]
+             (Math/sqrt (apply meansqFunc v))
+             )
+           )
+  )
+
 (def operators {
                 '+      add
                 '-      subtract
                 '*      multiply
                 '/      divide
                 'negate negate
+
                 'exp    exp
                 'ln     ln
+
+                'meansq meansq
+                'rms    rms
                 }
   )
 
@@ -56,6 +77,7 @@
                            (number? el) (constant el)
                            (symbol? el) (variable (name el))
                            ))
+
 (defn parseFunction [s] (
                           let [el (read-string s)]
                           (parseFromList el)
