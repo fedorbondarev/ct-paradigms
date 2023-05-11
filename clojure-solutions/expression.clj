@@ -23,9 +23,7 @@
 (defn buildExpression [func]
   (fn [& expressions]
     (fn [vars]
-      (apply func
-             (mapv #(% vars) expressions)
-             )
+      (apply func (mapv #(% vars) expressions))
       )
     )
   )
