@@ -45,3 +45,10 @@ _*
 /clojure-solutions/lib/
 /clojure-solutions/cljtest/
 /clojure-solutions/data/
+
+# Do not store some prolog files
+/prolog-solutions/prtest/
+/prolog-solutions/lib/
+/prolog-solutions/examples/
+/prolog-solutions/RunProlog.sh
+/prolog-solutions/TestProlog.sh

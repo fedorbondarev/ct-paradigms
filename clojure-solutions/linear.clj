@@ -61,8 +61,7 @@
 (def md (buildVectorFunction vd))
 
 (defn m*v [m v]
-  (mapv #(scalar % v) m)
-  )
+  (mapv #(scalar % v) m))
 
 (defn transpose [m]
   (if (empty? m)
@@ -74,14 +73,8 @@
         (fn [j]
           (mapv
             (fn [i] (nth (nth m i) j))
-            s1
-            )
-          )
-        s2
-        )
-      )
-    )
-  )
+            s1))
+        s2))))
 
 (defn m*m [m1 m2] (
                     let [t (transpose m2)
@@ -91,10 +84,5 @@
                       (fn [i]
                         (mapv
                           (fn [j] (scalar (nth m1 i) (nth t j)))
-                          s2
-                          )
-                        )
-                      s1
-                      )
-                    )
-  )
+                          s2))
+                          s1)))

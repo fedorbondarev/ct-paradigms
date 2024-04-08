@@ -37,9 +37,7 @@ const parse = (s) => {
         if ((ch === " " || ch === undefined) && elementString.length !== 0) {
             if (operators[elementString] !== undefined) {
                 let operator = operators[elementString];
-                elements.push(operator.func(
-                    ...Array.from({length: operator.length}, () => elements.pop()).reverse()
-                ));
+                elements.push(operator.func(...Array.from({length: operator.length}, () => elements.pop()).reverse()));
             } else if (["x", "y", "z"].includes(elementString)) {
                 elements.push(variable(elementString));
             } else if (elementString.length !== 0) {
